@@ -39,6 +39,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if len(ip) == 0 {
 		return events.APIGatewayProxyResponse{}, ErrNoIP
 	}
+	// ip := "world"
 
 	return events.APIGatewayProxyResponse{
 		Body:       fmt.Sprintf("Hello, %v", string(ip)),

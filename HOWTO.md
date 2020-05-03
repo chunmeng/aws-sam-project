@@ -41,7 +41,6 @@ https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/s
     ```bash
     FileNotFoundError: [Errno 2] No such file or directory: '/home/user/.local/lib/python3.6/site-packages/pip-19.0.1.dist-info/METADATA'
     ```
-    
     Do this:
     ```bash
     cp ~/.local/lib/python3.6/site-packages/pip-19.0.1.dist-info/pip-19.0.1.dist-info/* ~/.local/lib/python3.6/site-packages/pip-19.0.1.dist-info/
@@ -66,5 +65,26 @@ https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/s
   ```bash
   sam init --name sam-app --runtime go1.x --app-template hello-world
   ```
+  A project folder sam-app is created, source in sam-app/hello-world.
+  The sample return the hello response with invoker's public IP. 
+* [x] Build the project
+  ```bash
+  cd sam-app
+  sam build
+  ```
+  Just building the sample code for now
+* [x] Test locally
+  ```bash
+  sam local invoke
+  ```
+  This build the docker image and invoke the function locally.
+  ```json
+  Init Duration: 162.59 ms        Duration: 1134.53 ms    Billed Duration: 1200 ms        Memory Size: 128 MB     Max Memory Used: 29 MB
+  {"statusCode":200,"headers":null,"multiValueHeaders":null,"body":"Hello, 1.1.1.1\n"}
+  ```
+  __Note__ The go sample invoke aws checkip API and that incur a much longer billed duration. Removing those external calls will reduce the duration significantly
+  ```json
+  Init Duration: 184.83 ms        Duration: 2.67 ms       Billed Duration: 100 ms Memory Size: 128 MB     Max Memory Used: 22 MB
 
-
+  {"statusCode":200,"headers":null,"multiValueHeaders":null,"body":"Hello, world"}
+  ```
