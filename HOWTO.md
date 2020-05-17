@@ -49,10 +49,11 @@ https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/s
 # Configuration
 
 * [x] aws configure
-  
+
   Configure the credentials.
-  This requires an IAM user with appropriate permission.
-  * [ ] Currently use full administrative role. Need to find out exact permission.
+  This requires an IAM user with admin permission.
+  * [x] AWSCloudFormationFullAccess
+  * [x] S3FullAccess
 
 # Project Workflow
 
@@ -66,13 +67,14 @@ https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/s
   sam init --name sam-app --runtime go1.x --app-template hello-world
   ```
   A project folder sam-app is created, source in sam-app/hello-world.
-  The sample return the hello response with invoker's public IP. 
+  The sample return the hello response with invoker's public IP.
 * [x] Build the project
   ```bash
   cd sam-app
   sam build
   ```
   Just building the sample code for now
+
 * [x] Test locally
   ```bash
   sam local invoke
@@ -83,8 +85,28 @@ https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/s
   {"statusCode":200,"headers":null,"multiValueHeaders":null,"body":"Hello, 1.1.1.1\n"}
   ```
   __Note__ The go sample invoke aws checkip API and that incur a much longer billed duration. Removing those external calls will reduce the duration significantly
+
   ```json
   Init Duration: 184.83 ms        Duration: 2.67 ms       Billed Duration: 100 ms Memory Size: 128 MB     Max Memory Used: 22 MB
 
   {"statusCode":200,"headers":null,"multiValueHeaders":null,"body":"Hello, world"}
+  ```
+
+* [x] Deploy
+  ```bash
+  sam deploy --guided
+  ```
+  If everything goes well
+  ```bash
+  Successfully created/updated stack - sam-app in ap-southeast-1
+  ```
+
+* [x] Tracing and Debugging
+  ```bash
+  sam logs --name hello-world --stack-name sam-app --tail
+  ```
+
+* [x] Clean up
+  ```
+  aws cloudformation delete-stack --stack-name sam-app
   ```
